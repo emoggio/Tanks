@@ -43,8 +43,16 @@ SpriteAtlasAsset:
       enableTightPacking: 1
     variantMultiplier: 1
     packables:
-    - {fileID: 102900000, guid: 78415c8d6452baf4db826588249b5ff4, type: 3}
-    - {fileID: 102900000, guid: cb86cf28a01b34299a3be7ee47486aa0, type: 3}
+    - {fileID: 2800000, guid: 7b88c3e2c1c144fa5bc8f86d40f28895, type: 3}
+    - {fileID: 2800000, guid: b68ea5ab9718141a8a2849312a9c539b, type: 3}
+    - {fileID: 2800000, guid: ac3bce96e5d3a468abb029f2d950f620, type: 3}
+    - {fileID: 2800000, guid: b4432eafff9a14b929f7661910f3a6a0, type: 3}
+    - {fileID: 2800000, guid: 7b618a977c53845a0b6e630d57062e69, type: 3}
+    - {fileID: 2800000, guid: 22cf2452c8a2545628575be7ff9b5cf9, type: 3}
+    - {fileID: 2800000, guid: 8d4ab0039eedf4d3ba730563824cddd4, type: 3}
+    - {fileID: 2800000, guid: 3037fc41bdd49441690d4b68f24f4bca, type: 3}
+    - {fileID: 2800000, guid: ab943d3d5ac38bb448fabe3cdc9516d1, type: 3}
+    - {fileID: 2800000, guid: c7dd97e9cd879304795b366cbf187bfe, type: 3}
     totalSpriteSurfaceArea: 0
     bindAsDefault: 1
     isAtlasV2: 1
