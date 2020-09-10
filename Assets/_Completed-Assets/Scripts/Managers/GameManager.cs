@@ -58,6 +58,7 @@ namespace Complete
                     Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
                 m_Tanks[i].m_PlayerNumber = i + 1;
                 m_Tanks[i].Setup();
+                m_Tanks[i].LifeSetup();
             }
             if(m_Tanks.Length>1)
                 SetStartColor();
