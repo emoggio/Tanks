@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Complete
 {
@@ -11,7 +12,8 @@ namespace Complete
         public float m_StartDelay = 3f;             // The delay between the start of RoundStarting and RoundPlaying phases.
         public float m_EndDelay = 3f;               // The delay between the end of RoundPlaying and RoundEnding phases.
         public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
-        public Text m_MessageText;                  // Reference to the overlay Text to display winning text, etc.
+        public Text m_MessageText;    
+        public TextMeshProUGUI m_MessageTextUGUI;        // Reference to the overlay Text to display winning text, etc.
         public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
         public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
@@ -144,6 +146,7 @@ namespace Complete
             // Increment the round number and display text showing the players what round it is.
             m_RoundNumber++;
             m_MessageText.text = "ROUND " + m_RoundNumber;
+            m_MessageTextUGUI.SetText("ROUND " + m_RoundNumber.ToString());
 
             // Wait for the specified length of time until yielding control back to the game loop.
             yield return m_StartWait;
@@ -157,6 +160,7 @@ namespace Complete
 
             // Clear the text from the screen.
             m_MessageText.text = string.Empty;
+            m_MessageTextUGUI.SetText(string.Empty);
 
             // While there is not one tank left...
             while (!OneTankLeft())
@@ -188,6 +192,8 @@ namespace Complete
             // Get a message based on the scores and whether or not there is a game winner and display it.
             string message = EndMessage ();
             m_MessageText.text = message;
+            m_MessageTextUGUI.SetText(message);
+            
 
             // Wait for the specified length of time until yielding control back to the game loop.
             yield return m_EndWait;
