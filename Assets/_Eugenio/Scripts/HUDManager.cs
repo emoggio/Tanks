@@ -21,4 +21,25 @@ public class HUDManager : MonoBehaviour
     {
         SetColor.onButtonClick -= UpdateColor;
     }
+
+    public int TankButtonAmount;
+    public GameObject TankButton;
+    public GameObject Parent;
+
+    private void Awake() 
+    {
+        InstatiateButtons();
+    }
+
+    private void InstatiateButtons()
+    {
+        //streaksPool=new SteakBarElement[streakAmount.Lenght];
+        for (int i = 0; i < TankButtonAmount; i++)
+        {
+            GameObject _tButton = Instantiate(TankButton, Parent.transform, true);
+            //TankButton.transform.parent = Parent.transform;
+            //TankButtonPools[i]=_tButton.AddComponent<SteakBarElement>();
+        }
+    }
+
 }

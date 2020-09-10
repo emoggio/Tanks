@@ -15,7 +15,8 @@ namespace Complete
         public Color m_PlayerColor;                             // This is the color this tank will be tinted.
         public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
         public Slider m_NewSlider;
-        public Image m_NewSliderFill;         
+        public Image m_NewSliderFill;  
+        public Image TankIconFG;      
                                
         [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for.
         [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank.

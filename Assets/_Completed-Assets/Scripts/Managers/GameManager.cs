@@ -24,10 +24,9 @@ namespace Complete
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
 
-        //New Added variables
-        public Image TankIcon; //pulic reference to the icon to update
+
         Color _tempcolor; //temporary color
-        public int MyPlayer=0; //my plyaer
+
         
 
 
@@ -42,9 +41,6 @@ namespace Complete
 
             // Once the tanks have been created and the camera is using them as targets, start the game.
             StartCoroutine (GameLoop ());
-
-            if(MyPlayer>m_Tanks.Length)
-                MyPlayer=m_Tanks.Length;
         }
 
 
@@ -60,16 +56,20 @@ namespace Complete
                 m_Tanks[i].Setup();
                 m_Tanks[i].LifeSetup();
             }
-            if(m_Tanks.Length>1)
+            if(m_Tanks.Length>0)
                 SetStartColor();
         }        
 
         //Update the Icon color to match the color of the tank
         public void SetStartColor()
         {
-             _tempcolor = m_Tanks[MyPlayer].m_PlayerColor;
-             _tempcolor.a = 1f;
-             TankIcon.color = _tempcolor;
+
+             for(int i=0; i<m_Tanks.Length; i++)
+             {
+                _tempcolor = m_Tanks[i].m_PlayerColor;
+                _tempcolor.a = 1f;
+                m_Tanks[i].TankIconFG.color = _tempcolor;
+             }
         }
 
         //Subscribe to the action event
@@ -81,8 +81,8 @@ namespace Complete
         //update the material of your tank when you chnage the color of your icon
         public void UpdateColor(Color newColor)
         {
-            m_Tanks[MyPlayer].m_PlayerColor = newColor;
-            m_Tanks[MyPlayer].ColorSetup();
+            m_Tanks[0].m_PlayerColor = newColor;
+            m_Tanks[0].ColorSetup();
         }
 
         //Unscubscribe from your event
