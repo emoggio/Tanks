@@ -12,7 +12,7 @@ namespace Complete
         public float m_StartDelay = 3f;             // The delay between the start of RoundStarting and RoundPlaying phases.
         public float m_EndDelay = 3f;               // The delay between the end of RoundPlaying and RoundEnding phases.
         public CameraControl m_CameraControl;       // Reference to the CameraControl script for control during different phases.
-        public Text m_MessageText;    
+        //public Text m_MessageText;    
         public TextMeshProUGUI m_MessageTextUGUI;        // Reference to the overlay Text to display winning text, etc.
         public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
         public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
@@ -63,12 +63,12 @@ namespace Complete
         //Update the Icon color to match the color of the tank
         public void SetStartColor()
         {
-
              for(int i=0; i<m_Tanks.Length; i++)
              {
                 _tempcolor = m_Tanks[i].m_PlayerColor;
                 _tempcolor.a = 1f;
-                m_Tanks[i].TankIconFG.color = _tempcolor;
+                m_Tanks[i].m_TankIconFG.color = _tempcolor;
+                m_Tanks[i].m_PlayerTx.color = _tempcolor;
              }
         }
 
@@ -146,7 +146,7 @@ namespace Complete
 
             // Increment the round number and display text showing the players what round it is.
             m_RoundNumber++;
-            m_MessageText.text = "ROUND " + m_RoundNumber;
+            //m_MessageText.text = "ROUND " + m_RoundNumber;
             m_MessageTextUGUI.SetText("ROUND " + m_RoundNumber.ToString());
 
             // Wait for the specified length of time until yielding control back to the game loop.
@@ -160,7 +160,7 @@ namespace Complete
             EnableTankControl ();
 
             // Clear the text from the screen.
-            m_MessageText.text = string.Empty;
+            //m_MessageText.text = string.Empty;
             m_MessageTextUGUI.SetText(string.Empty);
 
             // While there is not one tank left...
@@ -192,7 +192,7 @@ namespace Complete
 
             // Get a message based on the scores and whether or not there is a game winner and display it.
             string message = EndMessage ();
-            m_MessageText.text = message;
+            //m_MessageText.text = message;
             m_MessageTextUGUI.SetText(message);
             
 

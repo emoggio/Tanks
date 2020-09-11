@@ -22,9 +22,11 @@ public class HUDManager : MonoBehaviour
         SetColor.onButtonClick -= UpdateColor;
     }
 
+    [Range(1,10)]
     public int TankButtonAmount;
     public GameObject TankButton;
     public GameObject Parent;
+    private Image TankImageFG;
 
     private void Awake() 
     {
@@ -33,13 +35,21 @@ public class HUDManager : MonoBehaviour
 
     private void InstatiateButtons()
     {
-        //streaksPool=new SteakBarElement[streakAmount.Lenght];
         for (int i = 0; i < TankButtonAmount; i++)
         {
             GameObject _tButton = Instantiate(TankButton, Parent.transform, true);
-            //TankButton.transform.parent = Parent.transform;
-            //TankButtonPools[i]=_tButton.AddComponent<SteakBarElement>();
         }
+
+    }
+
+    public Component[] hingeJoints;
+
+    void Start()
+    {
+        hingeJoints = GetComponentsInChildren<HingeJoint>();
+
+        foreach (HingeJoint joint in hingeJoints)
+            joint.useSpring = false;
     }
 
 }
