@@ -2,54 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class HUDManager : MonoBehaviour
+namespace Complete
 {
-    public Image TankIcon;
-
-    public void OnEnable() 
+    public class HUDManager : MonoBehaviour
     {
-        SetColor.onButtonClick += UpdateColor;
-    }
+        //public Image TankIcon;
+        //public TextMeshProUGUI PlayerTx;
+        public GameManager GameManagerScript;
 
-    public void UpdateColor(Color newColor)
-    {
-        TankIcon.color = newColor;
-    }
+        [Range(1,10)]
+        public int TankButtonAmount;
+        public GameObject TankButton;
+        public SetColor SetColorScript;
+        public GameObject Parent;
+        private Image TankImageFG;
 
-    public void OnDisable()
-    {
-        SetColor.onButtonClick -= UpdateColor;
-    }
 
-    [Range(1,10)]
-    public int TankButtonAmount;
-    public GameObject TankButton;
-    public GameObject Parent;
-    private Image TankImageFG;
-
-    private void Awake() 
-    {
-        InstatiateButtons();
-    }
-
-    private void InstatiateButtons()
-    {
-        for (int i = 0; i < TankButtonAmount; i++)
+        private void Awake() 
         {
-            GameObject _tButton = Instantiate(TankButton, Parent.transform, true);
+            InstatiateButtons();
         }
 
-    }
+        public void OnEnable() 
+        {
+            SetColor.onButtonClick += UpdateColor;
+        }
 
-    public Component[] hingeJoints;
+        public void UpdateColor(Color newColor)
+        {
+            GameManagerScript.m_Tanks[0].m_TankIconFG.color = newColor;
+            GameManagerScript.m_Tanks[0].m_PlayerTx.color = newColor;
+        }
 
-    void Start()
-    {
-        hingeJoints = GetComponentsInChildren<HingeJoint>();
+        public void OnDisable()
+        {
+            SetColor.onButtonClick -= UpdateColor;
+        }
 
-        foreach (HingeJoint joint in hingeJoints)
-            joint.useSpring = false;
+        private void InstatiateButtons()
+        {
+            for (int i = 0; i < TankButtonAmount; i++)
+            {
+                GameObject _tButton = Instantiate(TankButton, Parent.transform, true);
+                SetColorScript.RandoColor();
+            }
+        }
     }
 
 }

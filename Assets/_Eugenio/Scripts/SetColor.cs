@@ -10,22 +10,20 @@ public class SetColor : MonoBehaviour
     //set color sprite
     public static Action<Color> onButtonClick;
     private Color _newColor;
-    private Image _currentImage;
+    public Image _currentImage;
 
-    //setColorMaterial
-    //public static Action<Material> onClick;
+    void OnEnable() {
+        RandoColor();
+    }
 
-    void Start()
+    public void RandoColor()
     {
-        _currentImage = this.GetComponent<Image>();
-        _newColor = _currentImage.color;
+        _newColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(1f, 0f),1);
+        _currentImage.color = _newColor;
     }
 
     public void OnPress()
     {
-        if(_currentImage==null)
-            _newColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-
         if(onButtonClick!= null)
             onButtonClick(_newColor);
     }
