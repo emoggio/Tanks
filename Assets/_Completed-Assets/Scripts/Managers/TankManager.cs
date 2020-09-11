@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 namespace Complete
 {
@@ -71,14 +72,14 @@ namespace Complete
             for (int i = 0; i < renderers.Length; i++)
             {
                 // ... set their material color to the color specific to this tank.
-                renderers[i].material.color = m_PlayerColor;
+                //renderers[i].material.color = m_PlayerColor;
+                renderers[i].material.DOColor(m_PlayerColor, .5f);
             }
         }
 
         public void LifeSetup()
         {
             m_Health = m_Instance.GetComponent<TankHealth> ();
-            //m_Health.m_PlayerNumber = m_PlayerNumber;
 
             m_Health.m_Slider = m_NewSlider;
             m_Health.m_FillImage = m_NewSliderFill;

@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Random=UnityEngine.Random;
+using DG.Tweening;
 
 public class SetColor : MonoBehaviour
 {
-    //set color sprite
     public static Action<Color> onButtonClick;
     private Color _newColor;
     public Image _currentImage;
@@ -22,9 +22,16 @@ public class SetColor : MonoBehaviour
         _currentImage.color = _newColor;
     }
 
+    public void Bounce()
+    {
+        this.transform.DOMoveY(300,.8f).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).OnComplete(OnPress);
+    }
+
     public void OnPress()
     {
         if(onButtonClick!= null)
             onButtonClick(_newColor);
     }
+
+
 }
