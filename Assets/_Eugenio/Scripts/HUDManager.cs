@@ -17,9 +17,17 @@ namespace Complete
         public SetColor SetColorScript;
         public GameObject Parent;
         private Image TankImageFG;
+
+        //buttons
+        public Button ButtonSetting;
         public GameObject ButtonColor;
+        public GameObject ButtonPause;
+        public GameObject ButtonQuit;
+
+        //scrollview
         public GameObject SwatchesScroll;
-        private float time = 2.0f;
+
+        private float time = .6f;
 
         private CanvasGroup SwatchesCanvas;
 
@@ -49,24 +57,33 @@ namespace Complete
             SetColor.onButtonClick -= UpdateColor;
         }
 
+        public void ShowButtonMenu()
+        {
+            ButtonSetting.interactable = false;
+
+            Sequence HideShow = DOTween.Sequence();
+            HideShow.Append(ButtonColor.transform.DOMoveY(115, time)).SetEase(Ease.OutBack)
+                .Append(ButtonPause.transform.DOMoveY(115, time)).SetEase(Ease.OutBack)
+                .Append(ButtonQuit.transform.DOMoveY(115, time)).SetEase(Ease.OutBack);
+        }
+
         public void ShowSwatches()
         {
             Sequence HideShow = DOTween.Sequence();
-            HideShow.Append(ButtonColor.transform.DOMoveY(-400, time)).SetEase(Ease.InBack)
-                .Append(SwatchesScroll.transform.DOMoveY(20, time)).SetEase(Ease.OutBack);
+            HideShow.Append(ButtonColor.transform.DOMoveY(-300, time/2)).SetEase(Ease.InBack)
+                .Append(ButtonPause.transform.DOMoveY(-300, time/2)).SetEase(Ease.InBack)
+                .Append(ButtonQuit.transform.DOMoveY(-300, time/2)).SetEase(Ease.InBack)
+                .Append(SwatchesScroll.transform.DOMoveY(20, time)).SetEase(Ease.InBack);
         }
 
         public void HideSwatches()
         {
-            Sequence HideShow = DOTween.Sequence();
-            HideShow.Append(SwatchesScroll.transform.DOMoveY(-400, time)).SetEase(Ease.InBack)
-                .Append(ButtonColor.transform.DOMoveY(60, time)).SetEase(Ease.OutBack)
-                .OnComplete(RaycastSwitcher);
+            SwatchesScroll.transform.DOMoveY(-500, time).SetEase(Ease.InBack).OnComplete(RaycastSwitcher);
         }
 
         void RaycastSwitcher()
         {
-            SwatchesCanvas.blocksRaycasts =true;
+            ButtonSetting.interactable = true;
         }
 
         private void InstatiateButtons()
