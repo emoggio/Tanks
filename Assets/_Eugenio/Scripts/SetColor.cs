@@ -9,6 +9,7 @@ using DG.Tweening;
 public class SetColor : MonoBehaviour
 {
     public static Action<Color> onButtonClick;
+    public static Action onButtonClickVFX;
     private Color _newColor;
     public Image _currentImage;
 
@@ -31,6 +32,9 @@ public class SetColor : MonoBehaviour
     {
         if(onButtonClick!= null)
             onButtonClick(_newColor);
+
+        if(onButtonClickVFX!= null)
+            onButtonClickVFX();
     }
 
 

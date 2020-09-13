@@ -26,6 +26,11 @@ namespace Complete
         public GameObject ButtonXXX;
         public GameObject ButtonYYY;
 
+        //VFX
+        public GameObject ExplosionVFX;
+        private CanvasGroup _canvasGroupVFX;
+
+
         //scrollview
         public GameObject SwatchesScroll;
         private CanvasGroup _swatchesCanvases;
@@ -42,6 +47,11 @@ namespace Complete
             _imageSetting = Setting.GetComponent<Image>();
             _cog = Setting.gameObject.transform.GetChild(0).gameObject;
             _cogImage = _cog.GetComponent<Image>();
+            _canvasGroupVFX = ExplosionVFX.GetComponent<CanvasGroup>();
+
+            Sequence resetVFX = DOTween.Sequence();
+            resetVFX.Append(ExplosionVFX.transform.DOScaleX(0,0))
+                .Join(ExplosionVFX.transform.DOScaleY(0,0));
         }
 
         public void OnEnable() 
@@ -51,7 +61,8 @@ namespace Complete
 
         public void UpdateColor(Color newColor)
         {
-            GameManagerScript.m_Tanks[0].m_TankIconFG.transform.DOShakeRotation(.8f,30f,0,30,true);
+            Explosion();
+
             GameManagerScript.m_Tanks[0].m_TankIconFG.DOColor(newColor, .5f);
             GameManagerScript.m_Tanks[0].m_PlayerTx.DOColor(newColor, .5f);
             HideSwatches();
@@ -102,6 +113,18 @@ namespace Complete
                 _imageSetting.color = _grey;
                 _cogImage.color = _grey;
             }
+        }
+
+        void Explosion()
+        {
+            Sequence VFX = DOTween.Sequence();
+            VFX.Append(ExplosionVFX.transform.DOScaleX(1.5f,_time)).SetEase(Ease.OutCubic)
+                .Join(ExplosionVFX.transform.DOScaleY(1.5f,_time)).SetEase(Ease.OutCubic)
+                .Join(DOTween.To(()=> _canvasGroupVFX.alpha, x=> _canvasGroupVFX.alpha = x, 0f, _time*2)).SetEase(Ease.InSine)
+                .AppendInterval(.2f)
+                .Append(ExplosionVFX.transform.DOScaleX(0f,0))
+                .Join(ExplosionVFX.transform.DOScaleY(0f,0))
+                .Join(DOTween.To(()=> _canvasGroupVFX.alpha, x=> _canvasGroupVFX.alpha = x, 1f,0));
         }
 
         private void InstatiateButtons()
