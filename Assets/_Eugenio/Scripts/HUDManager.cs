@@ -36,7 +36,7 @@ namespace Complete
         public RectTransform SwatchesScroll;
 
         //animations
-        private float _time = .6f;
+        private float _time = .3f;
         Color _grey = new Color(.4f,.4f,.4f,1);
 
         private void Awake() 
