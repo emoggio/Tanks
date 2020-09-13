@@ -19,6 +19,8 @@ namespace Complete
 
         //buttons
         public GameObject Setting;
+        //public RectTransform SettingPos;
+        private float _yPos;
         private Button _buttonSetting;
         private Image _imageSetting, _cogImage;
         private GameObject _cog;
@@ -33,7 +35,6 @@ namespace Complete
 
         //scrollview
         public GameObject SwatchesScroll;
-        private CanvasGroup _swatchesCanvases;
 
         //animations
         private float _time = .6f;
@@ -42,12 +43,14 @@ namespace Complete
         private void Awake() 
         {
             InstatiateButtons();
-            _swatchesCanvases = SwatchesScroll.GetComponent<CanvasGroup>();
             _buttonSetting = Setting.GetComponent<Button>();
             _imageSetting = Setting.GetComponent<Image>();
             _cog = Setting.gameObject.transform.GetChild(0).gameObject;
             _cogImage = _cog.GetComponent<Image>();
             _canvasGroupVFX = ExplosionVFX.GetComponent<CanvasGroup>();
+
+            RectTransform myRectTransform = Setting.GetComponent<RectTransform>();
+            _yPos= myRectTransform.anchoredPosition.y;
 
             Sequence resetVFX = DOTween.Sequence();
             resetVFX.Append(ExplosionVFX.transform.DOScaleX(0,0))
@@ -66,8 +69,6 @@ namespace Complete
             GameManagerScript.m_Tanks[0].m_TankIconFG.DOColor(newColor, .5f);
             GameManagerScript.m_Tanks[0].m_PlayerTx.DOColor(newColor, .5f);
             HideSwatches();
-            Debug.Log(SwatchesScroll.GetComponent<CanvasGroup>().blocksRaycasts);
-            SwatchesScroll.GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
 
         public void OnDisable()
@@ -78,11 +79,12 @@ namespace Complete
         public void ShowButtonMenu()
         {
             RaycastSwitcher();
+            
 
             Sequence HideShow = DOTween.Sequence();
-            HideShow.Append(ButtonColor.transform.DOMoveY(115, _time)).SetEase(Ease.OutBack)
-                .Append(ButtonXXX.transform.DOMoveY(115, _time)).SetEase(Ease.OutBack)
-                .Append(ButtonYYY.transform.DOMoveY(115, _time)).SetEase(Ease.OutBack);
+            HideShow.Append(ButtonColor.transform.DOMoveY(_yPos, _time)).SetEase(Ease.OutBack)
+                .Append(ButtonXXX.transform.DOMoveY(_yPos, _time)).SetEase(Ease.OutBack)
+                .Append(ButtonYYY.transform.DOMoveY(_yPos, _time)).SetEase(Ease.OutBack);
         }
 
         public void ShowSwatches()
@@ -132,6 +134,7 @@ namespace Complete
             for (int i = 0; i < TankButtonAmount; i++)
             {
                 GameObject _tButton = Instantiate(TankButton, Parent.transform, true);
+                _tButton.transform.localScale = new Vector3(1,1,1);
                 SetColorScript.RandoColor();
             }
         }

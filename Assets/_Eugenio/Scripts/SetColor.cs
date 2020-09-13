@@ -11,7 +11,10 @@ public class SetColor : MonoBehaviour
     public static Action<Color> onButtonClick;
     public static Action onButtonClickVFX;
     private Color _newColor;
-    public Image _currentImage;
+    public Image CurrentImage;
+    public GameObject ButtonBounce;
+
+    private float _yPos;
 
     void OnEnable() {
         RandoColor();
@@ -20,12 +23,15 @@ public class SetColor : MonoBehaviour
     public void RandoColor()
     {
         _newColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(1f, 0f),1);
-        _currentImage.color = _newColor;
+        CurrentImage.color = _newColor;
     }
 
     public void Bounce()
     {
-        this.transform.DOMoveY(300,.8f).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).OnComplete(OnPress);
+        //RectTransform myRectTransform = ButtonBounce.GetComponent<RectTransform>();
+       // _yPos= myRectTransform.anchoredPosition.y+200;
+
+        ButtonBounce.transform.DOMoveY(200,.8f).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).OnComplete(OnPress);
     }
 
     public void OnPress()
@@ -33,8 +39,6 @@ public class SetColor : MonoBehaviour
         if(onButtonClick!= null)
             onButtonClick(_newColor);
 
-        if(onButtonClickVFX!= null)
-            onButtonClickVFX();
     }
 
 
