@@ -24,17 +24,16 @@ namespace Complete
         private Button _buttonSetting;
         private Image _imageSetting, _cogImage;
         private GameObject _cog;
-        public GameObject ButtonColor;
-        public GameObject ButtonXXX;
-        public GameObject ButtonYYY;
+        public RectTransform ButtonColor;
+        public RectTransform ButtonXXX;
+        public RectTransform ButtonYYY;
 
         //VFX
         public GameObject ExplosionVFX;
         private CanvasGroup _canvasGroupVFX;
 
-
         //scrollview
-        public GameObject SwatchesScroll;
+        public RectTransform SwatchesScroll;
 
         //animations
         private float _time = .6f;
@@ -49,12 +48,11 @@ namespace Complete
             _cogImage = _cog.GetComponent<Image>();
             _canvasGroupVFX = ExplosionVFX.GetComponent<CanvasGroup>();
 
-            RectTransform myRectTransform = Setting.GetComponent<RectTransform>();
-            _yPos= myRectTransform.anchoredPosition.y;
-
             Sequence resetVFX = DOTween.Sequence();
             resetVFX.Append(ExplosionVFX.transform.DOScaleX(0,0))
                 .Join(ExplosionVFX.transform.DOScaleY(0,0));
+
+            Invoke("RaycastSwitcher", 1.5f);
         }
 
         public void OnEnable() 
@@ -80,25 +78,50 @@ namespace Complete
         {
             RaycastSwitcher();
             
+            Vector2 _ancorMin =  new Vector2(.5f,.26f);
+            Vector2 _ancorMax =  new Vector2(.5f,.26f);
 
-            Sequence HideShow = DOTween.Sequence();
-            HideShow.Append(ButtonColor.transform.DOMoveY(_yPos, _time)).SetEase(Ease.OutBack)
-                .Append(ButtonXXX.transform.DOMoveY(_yPos, _time)).SetEase(Ease.OutBack)
-                .Append(ButtonYYY.transform.DOMoveY(_yPos, _time)).SetEase(Ease.OutBack);
+             Sequence Show = DOTween.Sequence();
+             Show.Append(DOTween.To(()=> ButtonColor.anchorMax, x=> ButtonColor.anchorMax = x, _ancorMax,_time)).SetEase(Ease.OutBack)
+                 .Join(DOTween.To(()=> ButtonColor.anchorMin, x=> ButtonColor.anchorMin = x, _ancorMin,_time)).SetEase(Ease.OutBack)
+                 .Append(DOTween.To(()=> ButtonXXX.anchorMax, x=> ButtonXXX.anchorMax = x, _ancorMax,_time)).SetEase(Ease.OutBack)
+                 .Join(DOTween.To(()=> ButtonXXX.anchorMin, x=> ButtonXXX.anchorMin = x, _ancorMin,_time)).SetEase(Ease.OutBack)
+                 .Append(DOTween.To(()=> ButtonYYY.anchorMax, x=> ButtonYYY.anchorMax = x, _ancorMax,_time)).SetEase(Ease.OutBack)
+                 .Join(DOTween.To(()=> ButtonYYY.anchorMin, x=> ButtonYYY.anchorMin = x, _ancorMin,_time)).SetEase(Ease.OutBack);
+        }
+
+        public void HideButtonMenu()
+        {
+            Vector2 _ancorMin =  new Vector2(.5f,0f);
+            Vector2 _ancorMax =  new Vector2(.5f,0f);
+
+            Sequence Hide = DOTween.Sequence();
+            Hide.Append(DOTween.To(()=> ButtonColor.anchorMax, x=> ButtonColor.anchorMax = x, _ancorMax,_time)).SetEase(Ease.OutBack)
+                .Join(DOTween.To(()=> ButtonColor.anchorMin, x=> ButtonColor.anchorMin = x, _ancorMin,_time)).SetEase(Ease.OutBack)
+                .Append(DOTween.To(()=> ButtonXXX.anchorMax, x=> ButtonXXX.anchorMax = x, _ancorMax,_time)).SetEase(Ease.OutBack)
+                .Join(DOTween.To(()=> ButtonXXX.anchorMin, x=> ButtonXXX.anchorMin = x, _ancorMin,_time)).SetEase(Ease.OutBack)
+                .Append(DOTween.To(()=> ButtonYYY.anchorMax, x=> ButtonYYY.anchorMax = x, _ancorMax,_time)).SetEase(Ease.OutBack)
+                .Join(DOTween.To(()=> ButtonYYY.anchorMin, x=> ButtonYYY.anchorMin = x, _ancorMin,_time)).SetEase(Ease.OutBack).OnComplete(ShowSwatches);
         }
 
         public void ShowSwatches()
         {
-            Sequence HideShow = DOTween.Sequence();
-            HideShow.Append(ButtonColor.transform.DOMoveY(-300, _time/2)).SetEase(Ease.InBack)
-                .Append(ButtonXXX.transform.DOMoveY(-300, _time/2)).SetEase(Ease.InBack)
-                .Append(ButtonYYY.transform.DOMoveY(-300, _time/2)).SetEase(Ease.InBack)
-                .Append(SwatchesScroll.transform.DOMoveY(20, _time)).SetEase(Ease.InBack);
+            Vector2 _ancorMinScroll =  new Vector2(0f,0.3f);
+            Vector2 _ancorMaxScroll =  new Vector2(1f,0.3f);
+
+            Sequence ShowSwatch = DOTween.Sequence();
+            ShowSwatch.Append(DOTween.To(()=> SwatchesScroll.anchorMax, x=> SwatchesScroll.anchorMax = x, _ancorMaxScroll,_time)).SetEase(Ease.OutBack)
+                .Join(DOTween.To(()=> SwatchesScroll.anchorMin, x=> SwatchesScroll.anchorMin = x, _ancorMinScroll,_time)).SetEase(Ease.OutBack);
         }
 
         public void HideSwatches()
         {
-            SwatchesScroll.transform.DOMoveY(-500, _time).SetEase(Ease.InBack).OnComplete(RaycastSwitcher);
+            Vector2 _ancorMinScroll =  new Vector2(0f,0f);
+            Vector2 _ancorMaxScroll =  new Vector2(1f,0f);
+
+            Sequence HideSwatch = DOTween.Sequence();
+            HideSwatch.Append(DOTween.To(()=> SwatchesScroll.anchorMax, x=> SwatchesScroll.anchorMax = x, new Vector2(1, 0),_time)).SetEase(Ease.OutBack)
+                .Join(DOTween.To(()=> SwatchesScroll.anchorMin, x=> SwatchesScroll.anchorMin = x, new Vector2(0, 0),_time)).SetEase(Ease.OutBack).OnComplete(RaycastSwitcher);
         }
         
         void RaycastSwitcher()

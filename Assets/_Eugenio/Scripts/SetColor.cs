@@ -12,7 +12,7 @@ public class SetColor : MonoBehaviour
     public static Action onButtonClickVFX;
     private Color _newColor;
     public Image CurrentImage;
-    public GameObject ButtonBounce;
+    public RectTransform ButtonBounce;
 
     private float _yPos;
 
@@ -28,10 +28,19 @@ public class SetColor : MonoBehaviour
 
     public void Bounce()
     {
-        //RectTransform myRectTransform = ButtonBounce.GetComponent<RectTransform>();
-       // _yPos= myRectTransform.anchoredPosition.y+200;
+        Vector2 _bounceYMin =  new Vector2(0f,0.5f);
+        Vector2 _bounceYMax =  new Vector2(1f,1.5f);
+        Vector2 _bounceYMinEnd =  new Vector2(0f,0f);
+        Vector2 _bounceYMaxEnd =  new Vector2(1f,1f);
+        float _time = .8f;
 
-        ButtonBounce.transform.DOMoveY(200,.8f).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).OnComplete(OnPress);
+        Sequence BouncePos = DOTween.Sequence();
+        BouncePos.Append(DOTween.To(()=> ButtonBounce.anchorMax, x=> ButtonBounce.anchorMax = x, _bounceYMax,_time)).SetEase(Ease.InBack)
+                .Join(DOTween.To(()=> ButtonBounce.anchorMin, x=> ButtonBounce.anchorMin = x, _bounceYMin,_time)).SetEase(Ease.InBack)
+                .Append(DOTween.To(()=> ButtonBounce.anchorMax, x=> ButtonBounce.anchorMax = x, _bounceYMaxEnd,_time)).SetEase(Ease.InBack)
+                .Join(DOTween.To(()=> ButtonBounce.anchorMin, x=> ButtonBounce.anchorMin = x, _bounceYMinEnd,_time)).SetEase(Ease.InBack).OnComplete(OnPress);
+
+        //ButtonBounce.transform.DOMoveY(200,.8f).SetEase(Ease.InBack).SetLoops(2, LoopType.Yoyo).OnComplete(OnPress);
     }
 
     public void OnPress()
