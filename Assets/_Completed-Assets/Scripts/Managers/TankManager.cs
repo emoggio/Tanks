@@ -16,8 +16,8 @@ namespace Complete
 
         public Color m_PlayerColor;                             // This is the color this tank will be tinted.
         public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns.
-        public Slider m_NewSlider;
-        public Image m_NewSliderFill;  
+ 
+        public TankHealthGUI m_TankHealthUI;
         public Image m_TankIconFG;    
         public TextMeshProUGUI m_PlayerTx;
 
@@ -72,7 +72,6 @@ namespace Complete
             for (int i = 0; i < renderers.Length; i++)
             {
                 // ... set their material color to the color specific to this tank.
-                //renderers[i].material.color = m_PlayerColor;
                 renderers[i].material.DOColor(m_PlayerColor, .5f);
             }
         }
@@ -81,8 +80,8 @@ namespace Complete
         {
             m_Health = m_Instance.GetComponent<TankHealth> ();
 
-            m_Health.m_Slider = m_NewSlider;
-            m_Health.m_FillImage = m_NewSliderFill;
+            m_Health.m_TankHealthUI = m_TankHealthUI;
+            m_Health.Initialize();
         }
 
 
