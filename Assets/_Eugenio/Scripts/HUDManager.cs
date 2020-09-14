@@ -11,7 +11,7 @@ namespace Complete
     {
         public GameManager GameManagerScript;
 
-        [Range(1,10)]
+        [Range(1,15)]
         public int TankButtonAmount;
         public GameObject TankButton;
         public SetColor SetColorScript;
